@@ -1,0 +1,28 @@
+name: Auto Commit and Push
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight (UTC)
+  push:
+    branches:
+      - main
+
+jobs:
+  auto-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "yourusername"
+
+      - name: Make Changes
+        run: |
+          echo "Updated on $(date)" >> update.log
+          git add .
+          git commit -m "Auto update on $(date)"
+
+      - name: Push Changes
+        run: git push
